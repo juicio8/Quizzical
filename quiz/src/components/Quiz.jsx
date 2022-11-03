@@ -38,8 +38,14 @@ export default function Quiz(props) {
        e.target.style.backgroundColor = '#D6DBF5'
        e.target.classList.add('chosen')
     }
+    //function decoding all html syntaxes
+    function htmlDecode(question) {
+        let newQuestion = new DOMParser().parseFromString(question, "text/html");
+        return newQuestion.documentElement.textContent;
+      }
     //fixing &#39; &quot; errors
-    let question = props.question.replace(/&quot;|&#039;/g, "'")
+    let question = htmlDecode(props.question)
+
     
     return (
         <div className="quiz">
