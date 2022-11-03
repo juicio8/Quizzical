@@ -1,8 +1,10 @@
 import React from "react";
 
 export default function Quiz(props) {
+    //creating an array of options
     const opt = [...props.wr_answer, props.cr_answer]
-    
+
+    //function for shuffling array
     function shuffle(arr) {
         let currentIndex = arr.length, randomIndex
 
@@ -14,16 +16,21 @@ export default function Quiz(props) {
         }
         return arr
     }
+    //shuffling opt array
     shuffle(opt)
+    //function for checking if selected answer is correct
     function correct(index) {
         if (props.cr_answer == index) {
             return "correct"
         }
     }
-    
-    const btn = opt.map(index => <button class={`${props.id} ${props.cr_answer == index? "correct" : ""}`} onClick={(e) => handleClicks(e)}>{index}</button>)
+    //creating buttons for all available options
+    const btn = opt.map(index => <button class={`${props.id} ${props.cr_answer == index? "correct" : ""}`} 
+    onClick={(e) => handleClicks(e)}>{index}</button>)
+
+    //function for handling selected buttons
     function handleClicks(e) {
-       let tr = document.querySelectorAll(`.${props.id}`)
+       const tr = document.querySelectorAll(`.${props.id}`)
        for (let i=0; i < tr.length; i++) {
         tr[i].style.backgroundColor = 'transparent'
 
@@ -31,9 +38,12 @@ export default function Quiz(props) {
        e.target.style.backgroundColor = '#D6DBF5'
        e.target.classList.add('chosen')
     }
+    //fixing &#39; &quot; errors
+    let question = props.question.replace(/&quot;|&#039;/g, "'")
+    
     return (
         <div className="quiz">
-            <p className="quiz--question">{props.question}</p>
+            <p className="quiz--question">{question}</p>
             <div className="quiz--options">
                 {btn}
             </div>
