@@ -1,11 +1,13 @@
 import React from 'react'
 import Quiz from './Quiz'
+import Loading from './Loading'
 
 export default function Start() {
     const [datas, updateData] = React.useState([])
     const [score, updateScore] = React.useState(0)
     const [submitted, updateSubmitted] = React.useState(false)
     const [start, updateStart] = React.useState(false)
+    const [again, setAgain] = React.useState(0)
     
     //fetching data
     React.useEffect(() => {
@@ -15,11 +17,21 @@ export default function Start() {
             updateData(data.results)
         }
         getDatas()
-    }, [])
+    }, [again])
+
+    // While the data is being fetched, we show a loading component
+    if (datas.length === 0) {
+        return (
+            <Loading />
+        )
+    }
 
     //function for play again
     function replay() {
-       window.location.reload()
+       updateData([])
+       updateScore(0)
+       updateSubmitted(false)
+       setAgain((prevGame) => prevGame + 1);
     }
     
     //couldn't find a suitable variable , creates array of quiz
